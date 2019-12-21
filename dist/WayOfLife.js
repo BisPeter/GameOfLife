@@ -118,8 +118,8 @@ function getNeighbourCount(grid, x, y) {
     var sum = 0;
     for (var i = -1; i < 2; i++) {
         for (var j = -1; j < 2; j++) {
-            var cols = (y + i + this.column) % this.column;
-            var rows = (x + j + this.row) % this.row;
+            var cols = (y + i + column) % this.column;
+            var rows = (x + j + row) % this.row;
             if (grid[rows][cols].style.backgroundColor == aliveColor_1) {
                 sum++;
             }
