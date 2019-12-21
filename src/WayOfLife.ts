@@ -88,6 +88,11 @@ function copyGrid() {
             grid[i][j].style.backgroundColor = grid2[i][j].style.backgroundColor
         }
     }
+    // for (var i = 0; i < row; i++) {
+    //     for (var j = 0; j < column; j++) {
+    //         grid2[i][j].style.backgroundColor = deadColor_0;
+    //     }
+    // }
 }
 
 function checkGrids(gid1, grid2) {
