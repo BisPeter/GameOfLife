@@ -14,4 +14,15 @@ async function test() {
 	console.log('test function');
 }
 
+const task = {
+    validateHtml: () => {
+       return gulp.src('*.html')
+          .pipe(htmlValidator())
+          .pipe(htmlValidator.reporter());
+       }
+    };
+  
+ // Gulp
+ gulp.task('validate-html', task.validateHtml);
+
 exports.default = parallel(test);

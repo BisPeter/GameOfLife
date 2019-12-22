@@ -9,6 +9,79 @@ var startButton = document.getElementById("startButton");
 var gameField = document.getElementById("gameField");
 var stopButton = document.getElementById('stopButton');
 var gameOn = false;
+
+
+
+
+class myWebComp extends HTMLElement {
+    constructor() {
+        super();
+    }
+    connectedCallback() {//this is, when the element is connected/loaded
+
+
+        for (var i = 0; i < row; i++) {
+            grid[i] = new Array(column);
+            grid2[i] = new Array(column);
+        }
+
+        for (var i = 0; i < row; i++) {
+            for (var j = 0; j < column; j++) {
+                var li = document.createElement("div");
+                li.style.backgroundColor = deadColor_0;
+                grid2[i][j] = li;
+            }
+
+        }
+
+        for (var i = 0; i < row; i++) {
+            for (var j = 0; j < column; j++) {
+                var li = document.createElement("div");
+
+                li.style.border = 'thin solid black';
+                li.style.width = Math.max(gameField.offsetWidth / column).toString() + 'px';
+                li.style.height = Math.max(gameField.offsetWidth / column).toString() + 'px';
+                //li.style.float ='left';
+                li.onclick = onClicked;
+                li.onmouseover = OnMOuseOver;
+                li.onmouseleave = OnMOuseLeave;
+                li.style.backgroundColor = deadColor_0;
+                grid[i][j] = li;
+            }
+
+        }
+
+        var htmlGrid = document.createElement("div");
+
+        gameField.appendChild(htmlGrid);
+        for (var i = 0; i < grid.length; i++) {
+            var rowy = document.createElement("div");
+            //rowy.style.lineHeight = '1'
+            rowy.style.float = 'left';
+            for (var j = 0; j < grid[i].length; j++) {
+
+                rowy.appendChild(grid[i][j]);
+            }
+            htmlGrid.appendChild(rowy);
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
 window.onresize = function () {
 
 }
@@ -21,36 +94,6 @@ stopButton.onclick = function () {
     gameOn = false;
 }
 
-for (var i = 0; i < row; i++) {
-    grid[i] = new Array(column);
-    grid2[i] = new Array(column);
-}
-
-for (var i = 0; i < row; i++) {
-    for (var j = 0; j < column; j++) {
-        var li = document.createElement("div");
-        li.style.backgroundColor = deadColor_0;
-        grid2[i][j] = li;
-    }
-
-}
-
-for (var i = 0; i < row; i++) {
-    for (var j = 0; j < column; j++) {
-        var li = document.createElement("div");
-
-        li.style.border = 'thin solid black';
-        li.style.width = Math.max(gameField.offsetWidth / column).toString() + 'px';
-        li.style.height = Math.max(gameField.offsetWidth / column).toString() + 'px';
-        //li.style.float ='left';
-        li.onclick = onClicked;
-        li.onmouseover = OnMOuseOver;
-        li.onmouseleave = OnMOuseLeave;
-        li.style.backgroundColor = deadColor_0;
-        grid[i][j] = li;
-    }
-
-}
 
 function computeNext() {
     for (var i = 0; i < row; i++) {
@@ -71,7 +114,7 @@ function computeNext() {
                 }
             }
 
-         
+
         }
     }
     if (gameOn) {
@@ -88,6 +131,11 @@ function copyGrid() {
             grid[i][j].style.backgroundColor = grid2[i][j].style.backgroundColor
         }
     }
+    // for (var i = 0; i < row; i++) {
+    //     for (var j = 0; j < column; j++) {
+    //         grid2[i][j].style.backgroundColor = deadColor_0;
+    //     }
+    // }
 }
 
 function checkGrids(gid1, grid2) {
@@ -130,7 +178,7 @@ function OnMOuseLeave() {
     if (this.style.backgroundColor != aliveColor_1) {
         this.style.backgroundColor = deadColor_0;
     }
-    
+
 }
 
 function getNeighbourCount(grid, x, y) {
@@ -162,23 +210,10 @@ window.onresize = function () {
     }
 }
 
+customElements.define('game-of-life', myWebComp);
 
 
 
-var htmlGrid = document.createElement("div");
-
-gameField.appendChild(htmlGrid);
-for (var i = 0; i < grid.length; i++) {
-    var rowy = document.createElement("div");
-    //rowy.style.lineHeight = '1'
-    rowy.style.float = 'left';
-    for (var j = 0; j < grid[i].length; j++) {
-
-        rowy.appendChild(grid[i][j]);
-    }
-    htmlGrid.appendChild(rowy);
-
-}
 
 
 

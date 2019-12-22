@@ -10,8 +10,32 @@ var startButton = document.getElementById("startButton");
 var gameField = document.getElementById("gameField");
 var stopButton = document.getElementById('stopButton');
 var gameOn = false;
-window.onresize = function () {
-};
+var generations = document.getElementById('generations');
+
+var genCount = 0;
+generations.innerHTML = "Generations: " + genCount.toString();
+var resetButton = document.getElementById('resetButton');
+resetButton.onclick = function(){
+    for (var i = 0; i < row; i++) {
+        for (var j = 0; j < column; j++) {
+            
+            grid[i][j].style.backgroundColor = deadColor_0;
+        }
+    }
+}
+var widthChanger = document.getElementById('inputWidth');
+initialize();
+widthChanger.addEventListener('change', function () {
+    column = widthChanger.value;
+    gameField.innerHTML = '';
+    initialize();
+});
+var heightChanger = document.getElementById('inputHeight');
+heightChanger.addEventListener('change', function () {
+    row = heightChanger.value;
+    gameField.innerHTML = '';
+    initialize();
+});
 startButton.onclick = function () {
     gameOn = true;
     computeNext();
@@ -19,31 +43,45 @@ startButton.onclick = function () {
 stopButton.onclick = function () {
     gameOn = false;
 };
-for (var i = 0; i < row; i++) {
-    grid[i] = new Array(column);
-    grid2[i] = new Array(column);
-}
-for (var i = 0; i < row; i++) {
-    for (var j = 0; j < column; j++) {
-        var li = document.createElement("div");
-        li.style.backgroundColor = deadColor_0;
-        grid2[i][j] = li;
+function initialize() {
+    grid = new Array(row);
+    grid2 = new Array(row);
+    for (var i = 0; i < row; i++) {
+        grid[i] = new Array(column);
+        grid2[i] = new Array(column);
+    }
+    for (var i = 0; i < row; i++) {
+        for (var j = 0; j < column; j++) {
+            var li = document.createElement("div");
+            li.style.backgroundColor = deadColor_0;
+            grid2[i][j] = li;
+        }
+    }
+    for (var i = 0; i < row; i++) {
+        for (var j = 0; j < column; j++) {
+            var li = document.createElement("div");
+            li.style.border = 'thin solid black';
+            li.style.width = Math.max(gameField.offsetWidth / (column * 2)).toString() + 'px';
+            li.style.height = Math.max(gameField.offsetWidth / (column * 2)).toString() + 'px';
+            li.onclick = onClicked;
+            li.onmouseover = OnMOuseOver;
+            li.onmouseleave = OnMOuseLeave;
+            li.style.backgroundColor = deadColor_0;
+            grid[i][j] = li;
+        }
+    }
+    var htmlGrid = document.createElement("div");
+    gameField.appendChild(htmlGrid);
+    for (var i = 0; i < grid.length; i++) {
+        var rowy = document.createElement("tr");
+        rowy.style.float = 'left';
+        for (var j = 0; j < grid[i].length; j++) {
+            rowy.appendChild(grid[i][j]);
+        }
+        gameField.appendChild(rowy);
     }
 }
-for (var i = 0; i < row; i++) {
-    for (var j = 0; j < column; j++) {
-        var li = document.createElement("div");
-        li.style.border = 'thin solid black';
-        li.style.width = Math.max(gameField.offsetWidth / column).toString() + 'px';
-        li.style.height = Math.max(gameField.offsetWidth / column).toString() + 'px';
-        //li.style.float ='left';
-        li.onclick = onClicked;
-        li.onmouseover = OnMOuseOver;
-        li.onmouseleave = OnMOuseLeave;
-        li.style.backgroundColor = deadColor_0;
-        grid[i][j] = li;
-    }
-}
+
 function computeNext() {
     for (var i = 0; i < row; i++) {
         for (var j = 0; j < column; j++) {
@@ -68,6 +106,8 @@ function computeNext() {
         }
     }
     if (gameOn) {
+        genCount++;
+        generations.innerHTML = "Generations: " + genCount.toString();
         copyGrid();
         setTimeout(function () {
             computeNext();
@@ -81,18 +121,6 @@ function copyGrid() {
         }
     }
 }
-function checkGrids(gid1, grid2) {
-    var isSame;
-    for (var i = 0; i < row; i++) {
-        for (var j = 0; j < column; j++) {
-            if (grid[i][j].style.backgroundColor != grid2[i][j].style.backgroundColor) {
-                isSame == false;
-                break;
-            }
-        }
-    }
-    return isSame;
-}
 function onClicked() {
     if (this.style.backgroundColor != aliveColor_1) {
         this.style.backgroundColor = aliveColor_1;
@@ -101,9 +129,7 @@ function onClicked() {
         this.style.backgroundColor = deadColor_0;
     }
 }
-function hallo() {
-    console.log(this);
-}
+
 function OnMOuseOver() {
     if (this.style.backgroundColor != aliveColor_1 || this.style.backgroundColor != wasAliveColor_2) {
         this.style.backgroundColor = 'rgb(157, 206, 143)';
@@ -138,14 +164,3 @@ window.onresize = function () {
         }
     }
 };
-var htmlGrid = document.createElement("div");
-gameField.appendChild(htmlGrid);
-for (var i = 0; i < grid.length; i++) {
-    var rowy = document.createElement("div");
-    //rowy.style.lineHeight = '1'
-    rowy.style.float = 'left';
-    for (var j = 0; j < grid[i].length; j++) {
-        rowy.appendChild(grid[i][j]);
-    }
-    htmlGrid.appendChild(rowy);
-}

@@ -7,14 +7,15 @@
     "tslint": "^5.20.1"
   },
   "devDependencies": {
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
     "gulp-sass": "^4.0.2",
     "gulp-typescript": "^6.0.0-alpha.1",
+    "gulp-w3c-html-validator": "^1.4.4",
     "typescript": "^3.7.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build":"tsc"
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
